@@ -1,0 +1,11 @@
+springdoc:
+  version: 1.5.0 
+    api-docs:
+      enabled: true
+      path: /api-docs
+    swagger-ui:
+      enabled: true
+      path: /swagger-ui.thml
+    security:
+      - basicAuth: []
+      - bearerAuth: []
