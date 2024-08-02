@@ -2,14 +2,21 @@ package com.bussinesdomain.training.services.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.bussinesdomain.training.client.master.MasterClient;
+import com.bussinesdomain.training.client.master.dto.CollaboratorResponseDTO;
+import com.bussinesdomain.training.client.master.dto.LeaderResponseDTO;
+import com.bussinesdomain.training.client.master.dto.RegionResponseDTO;
 import com.bussinesdomain.training.commons.Filter;
 import com.bussinesdomain.training.commons.IPaginationCommons;
 import com.bussinesdomain.training.commons.PaginationModel;
 import com.bussinesdomain.training.commons.SortModel;
+import com.bussinesdomain.training.config.ConfigToken;
 import com.bussinesdomain.training.dto.RegisterResponseDTO;
 
 import jakarta.persistence.Query;
@@ -17,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.PageImpl;
 import com.bussinesdomain.training.exception.ServiceException;
 import com.bussinesdomain.training.utils.DateUtil;
@@ -26,6 +34,7 @@ import com.bussinesdomain.training.utils.DateUtil;
 public class RegisterPaginationServiceImpl implements IPaginationCommons<RegisterResponseDTO> {
 
 	private final EntityManager entityManager;
+	private final MasterClient masterClient;
 
 	@Override
 	public Page<RegisterResponseDTO> pagination(PaginationModel pagination) {
@@ -47,6 +56,9 @@ public class RegisterPaginationServiceImpl implements IPaginationCommons<Registe
 
 			@SuppressWarnings("unchecked")
 			List<RegisterResponseDTO> lista = querySelect.getResultList();
+			assignCollaboratorInList(lista);
+			assignLeaderInList(lista);
+			assignRegionInList(lista);
 
 			PageRequest pageable = PageRequest.of(pagination.getPageNumber(), pagination.getRowsPerPage());
 
@@ -56,10 +68,50 @@ public class RegisterPaginationServiceImpl implements IPaginationCommons<Registe
 		}
 	}
 
+	private void assignCollaboratorInList(List<RegisterResponseDTO> lista){
+		List<Long> idCollaboratorsLst = lista.stream().map(x -> x.getIdCollaborator()).distinct().collect(Collectors.toList());
+		List<CollaboratorResponseDTO> collaborators = this.masterClient.findCollaboratorsByListId(ConfigToken.tokenBack, idCollaboratorsLst).getBody();
+		lista.forEach(x ->
+		{
+			@SuppressWarnings("null")
+			Optional<CollaboratorResponseDTO> optCollaborator = collaborators.stream().filter(y->y.getIdCollaborator().equals(x.getIdCollaborator())).findAny();
+			if(optCollaborator.isPresent()){
+				x.setCollaboratorNames(optCollaborator.get().getNames());
+				x.setCollaboratorLastNames(optCollaborator.get().getLastName());
+			}
+		});
+	}
+
+	private void assignLeaderInList(List<RegisterResponseDTO> lista){
+		List<Long> idLeadersLst = lista.stream().map(x -> x.getIdLeader()).distinct().collect(Collectors.toList());
+		List<LeaderResponseDTO> leaders = this.masterClient.findLeadersByListId(ConfigToken.tokenBack, idLeadersLst).getBody();
+		lista.forEach(x ->
+		{
+			@SuppressWarnings("null")
+			Optional<LeaderResponseDTO> optLeader = leaders.stream().filter(y->y.getIdLeader().equals(x.getIdLeader())).findAny();
+			if(optLeader.isPresent()){
+				x.setLeaderNames(optLeader.get().getNames());
+			}
+		});
+	}
+
+	private void assignRegionInList(List<RegisterResponseDTO> lista){
+		List<Long> idRegionsLst = lista.stream().map(x -> x.getIdLeaderRegion()).distinct().collect(Collectors.toList());
+		List<RegionResponseDTO> regions = this.masterClient.findRegionsByListId(ConfigToken.tokenBack, idRegionsLst).getBody();
+		lista.forEach(x ->
+		{
+			@SuppressWarnings("null")
+			Optional<RegionResponseDTO> optRegion = regions.stream().filter(y->y.getIdRegion().equals(x.getIdLeaderRegion())).findAny();
+			if(optRegion.isPresent()){
+				x.setLeaderRegionNames(optRegion.get().getDescription());
+			}
+		});
+	}
+
 	@Override
 	public StringBuilder getSelect() {
 		return new StringBuilder("SELECT new com.bussinesdomain.training.dto.RegisterResponseDTO(r.idRegister,r.dateAdmission,r.idCollaborator,r.idLeader,r.idLeaderRegion"
-				+ ",r.createdAt,r.updatedAt,r.registrationStatus,r.idUser) ");
+				+ ",r.createdAt,r.updatedAt,r.registrationStatus,r.idUser,\"\",\"\",\"\",\"\") ");
 	}
 
 	@Override

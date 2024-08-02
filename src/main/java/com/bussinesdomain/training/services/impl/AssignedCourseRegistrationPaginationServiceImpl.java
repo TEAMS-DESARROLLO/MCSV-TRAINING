@@ -2,17 +2,24 @@ package com.bussinesdomain.training.services.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.bussinesdomain.training.client.master.MasterClient;
+import com.bussinesdomain.training.client.master.dto.RegionResponseDTO;
+import com.bussinesdomain.training.client.master.dto.UnitMeasureResponseDTO;
 import com.bussinesdomain.training.commons.Filter;
 import com.bussinesdomain.training.commons.IPaginationCommons;
 import com.bussinesdomain.training.commons.PaginationModel;
 import com.bussinesdomain.training.commons.SortModel;
+import com.bussinesdomain.training.config.ConfigToken;
 import com.bussinesdomain.training.dto.AssignedCourseRegistrationResponseDTO;
+import com.bussinesdomain.training.dto.RegisterResponseDTO;
 import com.bussinesdomain.training.exception.ServiceException;
 import com.bussinesdomain.training.utils.DateUtil;
 
@@ -25,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 public class AssignedCourseRegistrationPaginationServiceImpl implements IPaginationCommons<AssignedCourseRegistrationResponseDTO> {
 
 	private final EntityManager entityManager;
+	private final MasterClient masterClient;
 
 	@Override
 	public Page<AssignedCourseRegistrationResponseDTO> pagination(PaginationModel pagination) {
@@ -48,6 +56,7 @@ public class AssignedCourseRegistrationPaginationServiceImpl implements IPaginat
 
 			@SuppressWarnings("unchecked")
 			List<AssignedCourseRegistrationResponseDTO> lista = querySelect.getResultList();
+			assignUnitMeasureInList(lista);
 
 			PageRequest pageable = PageRequest.of(pagination.getPageNumber(), pagination.getRowsPerPage());
 
@@ -57,10 +66,23 @@ public class AssignedCourseRegistrationPaginationServiceImpl implements IPaginat
 		}
 	}
 
+	private void assignUnitMeasureInList(List<AssignedCourseRegistrationResponseDTO> lista){
+		List<Long> idUnitMeasuresLst = lista.stream().map(x -> x.getIdUnitMeasure()).distinct().collect(Collectors.toList());
+		List<UnitMeasureResponseDTO> unitMeasures = this.masterClient.findUnitMeasuresByListId(ConfigToken.tokenBack, idUnitMeasuresLst).getBody();
+		lista.forEach(x ->
+		{
+			@SuppressWarnings("null")
+			Optional<UnitMeasureResponseDTO> optUnitMeasure = unitMeasures.stream().filter(y->y.getIdUnitMeasure().equals(x.getIdUnitMeasure())).findAny();
+			if(optUnitMeasure.isPresent()){
+				x.setUnitMeasureName(optUnitMeasure.get().getName());
+			}
+		});
+	}
+
 	@Override
 	public StringBuilder getSelect() {
 		return new StringBuilder("SELECT new com.bussinesdomain.training.dto.AssignedCourseRegistrationResponseDTO(a.idAssignedCourseRegistration,a.advancePercentage,a.durationCourse,a.idUnitMeasure,a.nameCourse,a.observation,a.startDate,a.urlCourse,a.idRegisterFollow.idRegisterFollow"
-				+ ",a.createdAt,a.updatedAt,a.registrationStatus,a.idUser ) ");
+				+ ",a.createdAt,a.updatedAt,a.registrationStatus,a.idUser,\"\" ) ");
 	}
 
 	@Override

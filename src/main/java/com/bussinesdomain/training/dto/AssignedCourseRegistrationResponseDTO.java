@@ -52,4 +52,6 @@ public class AssignedCourseRegistrationResponseDTO {
 	private String registrationStatus;
 	
 	private Long idUser;
+
+	private String unitMeasureName;
 }

@@ -44,4 +44,8 @@ public class RegisterResponseDTO {
 	
 	private Long idUser;
 
+	private String collaboratorNames;
+	private String collaboratorLastNames;
+	private String leaderNames;
+	private String leaderRegionNames;
 }
