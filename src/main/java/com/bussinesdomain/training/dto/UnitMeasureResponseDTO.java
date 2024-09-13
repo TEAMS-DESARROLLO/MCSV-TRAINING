@@ -1,4 +1,4 @@
-package com.bussinesdomain.training.client.master.dto;
+package com.bussinesdomain.training.dto;
 
 import com.bussinesdomain.training.constants.ValidationMessage;
 

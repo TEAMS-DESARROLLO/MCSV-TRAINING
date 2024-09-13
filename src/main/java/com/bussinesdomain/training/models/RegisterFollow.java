@@ -1,5 +1,6 @@
 package com.bussinesdomain.training.models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.bussinesdomain.training.constants.RegistrationStatus;
@@ -40,16 +41,16 @@ public class RegisterFollow {
 	@Column( name = "id_register_follow")
 	private Long idRegisterFollow;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	//@Temporal(TemporalType.TIMESTAMP)
     @Column( name = "date_start_follow" , nullable = false)
-    private LocalDateTime dateStartFollow;
+    private LocalDate dateStartFollow;
 
     @Column( name = "observation" , nullable = false)
     private String observation;
 
     @ManyToOne( fetch = FetchType.LAZY )
     @JoinColumn( name = "id_register")
-    private Register idRegister;
+    private Register register;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="created_at",nullable = false)

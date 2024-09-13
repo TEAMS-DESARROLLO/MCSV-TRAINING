@@ -14,11 +14,11 @@ import com.bussinesdomain.training.models.RegisterFollow;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface IRegisterFollowMapper {
 	
-	@Mapping(source = "idRegister.idRegister", target = "idRegister")
+	@Mapping(source = "register.idRegister", target = "idRegister")
 	RegisterFollowResponseDTO toGetDTO(RegisterFollow registerFollow);
 	
 	@InheritInverseConfiguration	
-	@Mapping(source = "idRegister", target = "idRegister.idRegister")
+	@Mapping(source = "idRegister", target = "register.idRegister")
 	@Mapping(target = "createdAt", ignore = true)
 	@Mapping(target  = "updatedAt", ignore = true)
 	RegisterFollow toEntity(RegisterFollowRequestDTO registerFollowRequestDTO);

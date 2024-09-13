@@ -12,9 +12,9 @@ public class FeignExceptionHandler {
 		}else if( e instanceof FeignException.InternalServerError ) {
 			throw new IllegalArgumentException("Internal server error when checking "+ entityType);
 		}else if( e instanceof FeignException.FeignClientException) {
-			throw new ServiceException("Client error when checking " + entityType);
+			throw new ServiceException("Client error when checking " + entityType, e);
 		}else if( e instanceof FeignException) {
-			throw new ServiceException("Error when checking " +entityType);
+			throw new ServiceException("Error when checking " +entityType, e);
 		}else {
 			throw new UnexpectedErrorException("Unexpected error when checking " +entityType);
 		}

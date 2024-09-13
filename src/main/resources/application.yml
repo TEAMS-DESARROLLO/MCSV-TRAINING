@@ -1,28 +1,13 @@
 server:
     port: 9004
 spring:
-#    security:
-#        oauth2:
-#            resourceserver:
-#                jwt:
-#                    issuer-uri: http://127.0.0.1:9000
-    datasource:
-        url: jdbc:postgresql://localhost:5432/mcsv_training
-        username: postgres
-        password: admin
-        driver-class-name: org.postgresql.Driver
-    jpa:
-        hibernate:
-            ddl-auto: update
-        show-sql: true
-        open-in-view: false
-        database-platform: org.hibernate.dialect.PostgreSQLDialect
-        properties:
-            hibernate:
-                dialect: org.hibernate.dialect.PostgreSQLDialect
-                naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
-                "[format_sql]": true
-                "[generate_statistics]": true
-                "[order_inserts]": true
-                jdbc:
-                    "[batch_size]": 50
+    application:
+        name: mcsv-training
+    config:
+        import: ${CONFIG_SERVER} 
+
+    cloud:
+        config:
+            #nombre base que se busca en el git o repositorio
+            name: config-server    
+

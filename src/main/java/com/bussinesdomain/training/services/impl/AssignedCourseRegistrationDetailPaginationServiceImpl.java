@@ -53,7 +53,7 @@ public class AssignedCourseRegistrationDetailPaginationServiceImpl implements IP
 
 			return new PageImpl<>(lista,pageable, total);
 		} catch (RuntimeException e) {
-			throw new ServiceException("error when generating the pagination " + e.getMessage());
+			throw new ServiceException("error when generating the pagination " + e.getMessage(), e );
 		}
 	}
 

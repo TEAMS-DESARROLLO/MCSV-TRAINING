@@ -6,10 +6,12 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+
 import com.bussinesdomain.training.commons.Filter;
 import com.bussinesdomain.training.commons.IPaginationCommons;
 import com.bussinesdomain.training.commons.PaginationModel;
 import com.bussinesdomain.training.commons.SortModel;
+
 import com.bussinesdomain.training.dto.RegisterResponseDTO;
 
 import jakarta.persistence.Query;
@@ -19,6 +21,8 @@ import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.PageImpl;
 import com.bussinesdomain.training.exception.ServiceException;
+import com.bussinesdomain.training.mapper.IRegisterMapper;
+import com.bussinesdomain.training.models.Register;
 import com.bussinesdomain.training.utils.DateUtil;
 
 @Service
@@ -26,6 +30,8 @@ import com.bussinesdomain.training.utils.DateUtil;
 public class RegisterPaginationServiceImpl implements IPaginationCommons<RegisterResponseDTO> {
 
 	private final EntityManager entityManager;
+
+	private final IRegisterMapper iRegisterMapper;
 
 	@Override
 	public Page<RegisterResponseDTO> pagination(PaginationModel pagination) {
@@ -46,20 +52,32 @@ public class RegisterPaginationServiceImpl implements IPaginationCommons<Registe
 			querySelect.setMaxResults(pagination.getRowsPerPage());
 
 			@SuppressWarnings("unchecked")
-			List<RegisterResponseDTO> lista = querySelect.getResultList();
+			List<Register> lista = querySelect.getResultList();
+
+			List<RegisterResponseDTO> listaDTO = iRegisterMapper.listEntityToDTO(lista);
+
 
 			PageRequest pageable = PageRequest.of(pagination.getPageNumber(), pagination.getRowsPerPage());
 
-			return new PageImpl<>(lista, pageable, total);
+			
+
+			return new PageImpl<>(listaDTO, pageable, total);
 		} catch (RuntimeException e) {
-			throw new ServiceException("error when generating the pagination " + e.getMessage());
+			throw new ServiceException("error when generating the pagination " + e.getMessage() , e.getCause() );
 		}
 	}
 
+
+	
+
+
 	@Override
 	public StringBuilder getSelect() {
-		return new StringBuilder("SELECT new com.bussinesdomain.training.dto.RegisterResponseDTO(r.idRegister,r.dateAdmission,r.idCollaborator,r.idLeader,r.idLeaderRegion"
-				+ ",r.createdAt,r.updatedAt,r.registrationStatus,r.idUser) ");
+		// return new StringBuilder("SELECT new com.bussinesdomain.training.dto.RegisterResponseDTO( " 
+		// 	+ "r.idRegister,r.dateAdmission,r.idCollaborator,r.idLeader,r.idRegion "
+		// 	+ ",r.createdAt,r.updatedAt,r.registrationStatus,r.idUser) ");
+
+		return new StringBuilder("SELECT r ");
 	}
 
 	@Override

@@ -14,11 +14,11 @@ import com.bussinesdomain.training.models.AssignedCourseRegistrationDetail;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface IAssignedCourseRegistrationDetailMapper {
 
-	@Mapping(source = "idAssignedCourseRegistration.idAssignedCourseRegistration", target = "idAssignedCourseRegistration")
+	@Mapping(source = "assignedCourseRegistration.idAssignedCourseRegistration", target = "idAssignedCourseRegistration")
 	AssignedCourseRegistrationDetailResponseDTO toGetDTO(AssignedCourseRegistrationDetail assignedCourseRegistrationDetail);
 
 	@InheritInverseConfiguration
-	@Mapping(source = "idAssignedCourseRegistration", target = "idAssignedCourseRegistration.idAssignedCourseRegistration")
+	//@Mapping(source = "idAssignedCourseRegistration", target = "assignedCourseRegistration.idAssignedCourseRegistration")
 	@Mapping(target = "createdAt", ignore = true)
 	@Mapping(target  = "updatedAt", ignore = true)
 	AssignedCourseRegistrationDetail toEntity(AssignedCourseRegistrationDetailRequestDTO assignedCourseRegistrationDetailRequestDTO);

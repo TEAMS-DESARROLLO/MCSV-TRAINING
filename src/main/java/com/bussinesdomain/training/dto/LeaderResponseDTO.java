@@ -1,8 +1,5 @@
-package com.bussinesdomain.training.client.master.dto;
+package com.bussinesdomain.training.dto;
 
-import com.bussinesdomain.training.constants.ValidationMessage;
-
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,12 +11,9 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class LeaderResponseDTO {
 
-    @EqualsAndHashCode.Include
-    @NotNull(message = ValidationMessage.CAN_T_BE_NULL)
     private Long idLeader;
     private String names;
 
     private Long idCommunity;
     private String communityDescription;
 }
-

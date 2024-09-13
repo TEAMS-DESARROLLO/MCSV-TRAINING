@@ -1,42 +1,41 @@
 package com.bussinesdomain.training.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-import com.bussinesdomain.training.constants.ValidationMessage;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class RegisterRequestDTO {
 
-	@EqualsAndHashCode.Include
-	private Long idRegister;
-	
-	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-	private LocalDateTime dateAdmission;
-	
-	@NotNull(message = ValidationMessage.CAN_T_BE_NULL)
-	@Min( value = 1, message = ValidationMessage.GREATER_THAN_ONE )
+
 	private Long idCollaborator;
+
+	private String namesCollaborator;
+	private String lastnameCollaborator;
 	
-	@NotNull(message = ValidationMessage.CAN_T_BE_NULL)
-	@Min( value = 1, message = ValidationMessage.GREATER_THAN_ONE )
 	private Long idLeader;
+	private String namesLeader;
 	
-	@NotNull(message = ValidationMessage.CAN_T_BE_NULL)
-	@Min( value = 1, message = ValidationMessage.GREATER_THAN_ONE )
-	private Long idLeaderRegion;
+	private Long idRegion;
+	private String descriptionRegion;
+
+	private Long idCommunity;
+	private String descriptionCommunity;
+
+	private Long idFunctionalLeader;
+	private String namesFunctionalLeader;
 	
-	private String registrationStatus;
+	//@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	private LocalDate dateAdmission;
+		
 	
-	private Long idUser;
+
 }

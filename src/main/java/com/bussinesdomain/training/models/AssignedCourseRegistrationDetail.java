@@ -24,6 +24,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,29 +39,32 @@ public class AssignedCourseRegistrationDetail {
 	@Column(name = "id_assigned_course_registration_detail")
 	private Long idAssignedCourseRegistrationDetail;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+
 	@Column(name= "report_date")
-	private LocalDateTime reportDate;
+	private LocalDate reportDate;
 	
 	@Column(name="theme_description")
 	private String themeDescription;
 	
-	@Column(name="theme_duration")
-	private Integer themeDuration;
+	@Column(name="duration_course_hrs")
+	private Integer durationCourseHrs;
+
+	@Column(name="duration_course_min")
+	private Integer durationCourseMin;
 	
-	@Column(name="ttheme_of_day")
+	@Column(name="theme_of_day")
 	private String themeOfDay;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_assigned_course_registration")
-	private AssignedCourseRegistration idAssignedCourseRegistration;
+	private AssignedCourseRegistration assignedCourseRegistration;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-    @Column(name="created_at",nullable = false)
+    @Column(name="created_at")
     private LocalDateTime createdAt;
     
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="updated_at",nullable = true)
+    @Column(name="updated_at")
     private LocalDateTime updatedAt;
     
     @Column(name="registration_status ", nullable=false,length = 1)
@@ -70,6 +74,8 @@ public class AssignedCourseRegistrationDetail {
     @Min( value = 1, message = ValidationMessage.GREATER_THAN_ONE )
     @Column( name="id_user", nullable = false )
     private Long idUser;
+
+    private String comment;
     
     @PrePersist
     public void prePersistence(){

@@ -1,6 +1,7 @@
 package com.bussinesdomain.training.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 
 import com.bussinesdomain.training.constants.ValidationMessage;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,8 +24,8 @@ public class RegisterFollowRequestDTO {
 	@EqualsAndHashCode.Include
 	private Long idRegisterFollow;
 	
-	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-	private LocalDateTime dateStartFollow;
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	private LocalDate dateStartFollow;
 		
 	@NotEmpty(message = ValidationMessage.NONEMPTY_STRING)
     @NotBlank(message = ValidationMessage.NOWHITESPACES_STRING)

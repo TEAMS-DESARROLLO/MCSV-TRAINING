@@ -1,12 +1,13 @@
 package com.bussinesdomain.training.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.bussinesdomain.training.constants.ValidationMessage;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,23 +17,36 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterResponseDTO {
 	
-	@NotNull(message = ValidationMessage.CAN_T_BE_NULL)
+
+
+	
 	private Long idRegister;
 	
-	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-	private LocalDateTime dateAdmission;
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	private LocalDate dateAdmission;
 	
-	@NotNull(message = ValidationMessage.CAN_T_BE_NULL)
-	@Min( value = 1, message = ValidationMessage.GREATER_THAN_ONE )
+
 	private Long idCollaborator;
+
+	private String namesCollaborator;
+
+	private String lastnameCollaborator;
 	
-	@NotNull(message = ValidationMessage.CAN_T_BE_NULL)
-	@Min( value = 1, message = ValidationMessage.GREATER_THAN_ONE )
+	private Long idCommunity;
+
+	private String descriptionCommunity;
+
 	private Long idLeader;
+
+	private String namesLeader;
 	
-	@NotNull(message = ValidationMessage.CAN_T_BE_NULL)
-	@Min( value = 1, message = ValidationMessage.GREATER_THAN_ONE )
-	private Long idLeaderRegion;
+	private Long idRegion;
+
+	private String descriptionRegion;
+
+	private Long idFunctionalLeader;
+
+	private String namesFuncionalLeader;
 	
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime createdAt;
@@ -43,5 +57,8 @@ public class RegisterResponseDTO {
 	private String registrationStatus;
 	
 	private Long idUser;
+
+
+
 
 }

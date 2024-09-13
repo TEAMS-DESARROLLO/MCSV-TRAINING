@@ -1,6 +1,7 @@
 package com.bussinesdomain.training.models;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import com.bussinesdomain.training.constants.RegistrationStatus;
 import com.bussinesdomain.training.constants.ValidationMessage;
@@ -41,11 +42,11 @@ public class AssignedCourseRegistration {
 	@Column(name = "advance_percentage")
 	private Integer advancePercentage;
 	
-	@Column(name="duration_course")
-	private Integer durationCourse;
+	@Column(name="duration_course_hrs")
+	private Integer durationCourseHrs;
 	
-	@JoinColumn(name = "id_unit_measure")
-	private Long idUnitMeasure;
+	// @JoinColumn(name = "id_unit_measure")
+	// private Long idUnitMeasure;
 	
 	@Column(name="name_course")
 	private String nameCourse;
@@ -53,16 +54,16 @@ public class AssignedCourseRegistration {
 	@Column(name="observation")
 	private String observation;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	
 	@Column(name= "start_date")
-	private LocalDateTime startDate;
+	private LocalDate startDate;
 	
 	@Column(name = "url_course")
 	private String urlCourse;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="id_register_follow")
-	private RegisterFollow idRegisterFollow;
+	private RegisterFollow registerFollow;
 	
 	@Temporal(TemporalType.TIMESTAMP)
     @Column(name="created_at",nullable = false)

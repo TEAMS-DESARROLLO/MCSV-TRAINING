@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.bussinesdomain.training.constants.RegistrationStatus;
 import com.bussinesdomain.training.exception.ModelNotFoundException;
 import com.bussinesdomain.training.models.AssignedCourseRegistration;
+import com.bussinesdomain.training.repository.IAssignedCourseRegistrationRepository;
 import com.bussinesdomain.training.repository.IGenericRepository;
 import com.bussinesdomain.training.services.IAssignedCourseRegistrationService;
 import com.bussinesdomain.training.services.validation.AssignedCourseRegistrationValidation;
@@ -21,6 +22,8 @@ public class AssignedCourseRegistrationServiceImpl extends CRUDImpl<AssignedCour
 	private final IGenericRepository<AssignedCourseRegistration, Long> repository;
 	
 	private final AssignedCourseRegistrationValidation assignedCourseRegistrationValidation; 
+
+	private final IAssignedCourseRegistrationRepository iAssignedCourseRegistrationRepository;
 	
 	@Override
 	protected IGenericRepository<AssignedCourseRegistration, Long> getRepo() {
@@ -36,8 +39,9 @@ public class AssignedCourseRegistrationServiceImpl extends CRUDImpl<AssignedCour
 	
 	@Override
 	public AssignedCourseRegistration create(AssignedCourseRegistration entity) {
-		assignedCourseRegistrationValidation.checkIdUnitMeasureValid(entity.getIdUnitMeasure());
+		// assignedCourseRegistrationValidation.checkIdUnitMeasureValid(entity.getIdUnitMeasure());
 		return super.create(entity);
+		//return null;
 	}
 	
 	@Override
@@ -60,6 +64,11 @@ public class AssignedCourseRegistrationServiceImpl extends CRUDImpl<AssignedCour
 		}
 		original.setRegistrationStatus(RegistrationStatus.INACTIVE);
 		super.update(original, id);
+	}
+
+	@Override
+	public List<AssignedCourseRegistration> findByFollowUpId(Long followUpId) {
+		return iAssignedCourseRegistrationRepository.findByFollowUpId(followUpId);
 	}
 	
 

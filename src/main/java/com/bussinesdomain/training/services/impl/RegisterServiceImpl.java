@@ -36,9 +36,9 @@ public class RegisterServiceImpl extends CRUDImpl<Register, Long> implements IRe
 	
 	@Override
 	public Register create(Register entity) {
-		registerValidation.checkIdCollaboratorValid(entity.getIdCollaborator()); 
-		registerValidation.checkIdLeaderValid(entity.getIdLeader(),"leader");
-		registerValidation.checkIdLeaderValid(entity.getIdLeaderRegion(),"leaderRegion");
+		// registerValidation.checkIdCollaboratorValid(entity.getIdCollaborator()); 
+		// registerValidation.checkIdLeaderValid(entity.getIdLeader(),"leader");
+		// registerValidation.checkIdLeaderValid(entity.getIdRegion(),"leaderRegion");
 		return super.create(entity);
 	}
 	
@@ -48,10 +48,12 @@ public class RegisterServiceImpl extends CRUDImpl<Register, Long> implements IRe
 		if( original == null ) {
 			throw new ModelNotFoundException("ID does not exist : "+id);
 		}
-		entity.setCreatedAt( original.getCreatedAt() );
-		entity.setRegistrationStatus( original.getRegistrationStatus().isEmpty() ? RegistrationStatus.ACTIVE : entity.getRegistrationStatus() );
-		BeanUtils.copyProperties(entity, original);
-		return super.update(entity, id);
+		//entity.setIdRegister(id);
+		//entity.setCreatedAt( original.getCreatedAt() );
+		//entity.setRegistrationStatus( original.getRegistrationStatus().isEmpty() ? RegistrationStatus.ACTIVE : entity.getRegistrationStatus() );
+		String[] ignoreProperties = {"createdAt","idRegister","registrationStatus"};
+		BeanUtils.copyProperties(entity, original,ignoreProperties);
+		return super.update(original, id);
 	}
 	
 	@Override

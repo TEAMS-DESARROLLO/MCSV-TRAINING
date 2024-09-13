@@ -1,5 +1,6 @@
 package com.bussinesdomain.training.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.bussinesdomain.training.constants.ValidationMessage;
@@ -22,8 +23,8 @@ public class RegisterFollowResponseDTO {
     @NotNull(message = ValidationMessage.CAN_T_BE_NULL)
 	private Long idRegisterFollow;
 	
-	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-	private LocalDateTime dateStartFollow;
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	private LocalDate dateStartFollow;
 		
 	private String observation;
 	

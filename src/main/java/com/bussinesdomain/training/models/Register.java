@@ -1,5 +1,6 @@
 package com.bussinesdomain.training.models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.bussinesdomain.training.constants.RegistrationStatus;
@@ -14,8 +15,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -37,30 +37,53 @@ public class Register {
     @Column( name = "id_register" )
     private Long idRegister;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	
     @Column( name = "date_admission" ,nullable = false)
-    private LocalDateTime dateAdmission;
+    private LocalDate dateAdmission;
 
     @NotNull( message = ValidationMessage.CAN_T_BE_NULL )
     @Min( value = 1, message = ValidationMessage.GREATER_THAN_ONE )
 	@Column( name = "id_collaborator", nullable = false )
     private Long idCollaborator;
+
+    @Column( name = "names_collaborator", nullable = false )
+    private String namesCollaborator;
+
+    @Column( name = "lastname_collaborator", nullable = false )
+    private String lastnameCollaborator;
 	
     @NotNull( message = ValidationMessage.CAN_T_BE_NULL )
     @Min( value = 1, message = ValidationMessage.GREATER_THAN_ONE )
     @Column( name = "id_leader", nullable = false )
     private Long idLeader;
+
+    @Column( name = "names_leader", nullable = false )
+    private String namesLeader;
     
     @NotNull( message = ValidationMessage.CAN_T_BE_NULL )
     @Min( value = 1, message = ValidationMessage.GREATER_THAN_ONE )
-    @Column( name = "id_leader_region", nullable = false )
-    private Long idLeaderRegion;
-    
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column( name = "id_region" )
+    private Long idRegion;
+
+    @Column( name = "description_region"  )
+    private String descriptionRegion;    
+
+    @Column( name = "id_community"  )
+    private Long idCommunity;
+
+    @Column( name = "description_community" )
+    private String descriptionCommunity;
+
+    @Column( name = "id_functional_leader" )
+    private Long idFunctionalLeader;
+
+    @Column( name = "names_functional_leader" )
+    private String namesFunctionalLeader;
+
     @Column(name="created_at",nullable = false)
     private LocalDateTime createdAt;
     
-    @Temporal(TemporalType.TIMESTAMP)
+
     @Column(name="updated_at",nullable = true)
     private LocalDateTime updatedAt;
     
