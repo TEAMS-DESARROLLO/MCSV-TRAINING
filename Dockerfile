@@ -5,14 +5,14 @@ FROM --platform=linux/x86_64  openjdk:17-jdk-alpine
 
 WORKDIR /app
 
-ENV PORT 9002
+ENV PORT 9004
 # ENV JAVA_OPTS  "-Dspring.profiles.active=dev -Deureka.client.serviceUrl.defaultZone=http://mcsv-eureka-server:8761/eureka"
 # ENV JAVA_OPTS  "-Dspring.profiles.active=devthink -Deureka.client.serviceUrl.defaultZone=http://mcsv-eureka-server:8761/eureka"
 ENV JAVA_OPTS  "-Dspring.profiles.active=mcsv-developer"
 ENV EUREKA_SERVER="http://mcsv-eureka-server:8761/eureka"
 
 EXPOSE $PORT
-COPY *.jar /app/mcsv-maestros-1.0.1.jar 
+COPY *.jar /app/mcsv-training-1.0.1.jar 
 # ENTRYPOINT ["java ${JAVA_OPTS}","-jar","/app/security-server-1.0.1.jar"]
 # ENTRYPOINT ["java",$JAVA_OPTS,"-jar","/app/security-server-1.0.1.jar","--eureka.client.serviceUrl.defaultZone=${EUREKA_SERVER}"]
-ENTRYPOINT exec java $JAVA_OPTS -jar /app/mcsv-maestros-1.0.1.jar --eureka.client.serviceUrl.defaultZone=${EUREKA_SERVER}
+ENTRYPOINT exec java $JAVA_OPTS -jar /app/mcsv-trainig-1.0.1.jar --eureka.client.serviceUrl.defaultZone=${EUREKA_SERVER}
