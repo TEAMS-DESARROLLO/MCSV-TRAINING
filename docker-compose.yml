@@ -11,14 +11,15 @@ services:
     environment:
       #configuracion servers
       EUREKA_SERVER: "http://mcsv-eureka-server:8761/eureka"
-      CONFIG_SERVER: "configserver:http://192.168.10.200:8888"
+      #CONFIG_SERVER: "configserver:http://192.168.10.200:8888"
       JAVA_OPTS: "-Dspring.profiles.active=mcsv-developer"
 
       POSTGRES_PASSWORD: developer
       HOST_DB: 142.93.13.2
       PORT_DB: 5432
       DATABASE_NAME: 'db_training'
-      SCHEMA_DB: 'data'    
+      SCHEMA_DB: 'data'  
+      CONFIG_SERVER: configserver:http://MCSV-CONFIG-SERVER:8888  
 
 
     networks:
