@@ -2,7 +2,7 @@ version: '3.8'
 services:
   mcsv-training:
     container_name: mcsv-training
-    image: maestros:1.0.1
+    image: training:1.0.1
     # build:
     #   context: ./
     #   dockerfile: ./eureka-server/Dockerfile
