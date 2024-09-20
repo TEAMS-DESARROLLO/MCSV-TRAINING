@@ -15,4 +15,4 @@ EXPOSE $PORT
 COPY *.jar /app/mcsv-training-1.0.1.jar 
 # ENTRYPOINT ["java ${JAVA_OPTS}","-jar","/app/security-server-1.0.1.jar"]
 # ENTRYPOINT ["java",$JAVA_OPTS,"-jar","/app/security-server-1.0.1.jar","--eureka.client.serviceUrl.defaultZone=${EUREKA_SERVER}"]
-ENTRYPOINT exec java $JAVA_OPTS -jar /app/mcsv-trainig-1.0.1.jar --eureka.client.serviceUrl.defaultZone=${EUREKA_SERVER}
+ENTRYPOINT exec java $JAVA_OPTS -jar /app/mcsv-training-1.0.1.jar --eureka.client.serviceUrl.defaultZone=${EUREKA_SERVER}
