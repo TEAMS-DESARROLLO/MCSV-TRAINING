@@ -7,7 +7,7 @@ services:
     #   context: ./
     #   dockerfile: ./eureka-server/Dockerfile
     ports:
-      - '9002:9002'
+      - '9004:9004'
     environment:
       #configuracion servers
       EUREKA_SERVER: "http://mcsv-eureka-server:8761/eureka"
